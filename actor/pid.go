@@ -30,12 +30,6 @@ func (pid *PID) Tell(message interface{}) {
 	pid.ref().SendUserMessage(pid, message, nil)
 }
 
-// Request sends a messages asynchronously to the PID. The actor may send a response back via respondTo, which is
-// available to the receiving actor via Context.Sender
-func (pid *PID) Request(message interface{}, respondTo *PID) {
-	pid.ref().SendUserMessage(pid, message, respondTo)
-}
-
 // RequestFuture sends a message to a given PID and returns a Future
 func (pid *PID) RequestFuture(message interface{}, timeout time.Duration) *Future {
 	future := NewFuture(timeout)
@@ -51,14 +45,9 @@ func (pid *PID) StopFuture() *Future {
 	future := NewFuture(10 * time.Second)
 
 	pid.sendSystemMessage(&Watch{Watcher: future.pid})
-	pid.Stop()
+	StopActor(pid)
 
 	return future
-}
-
-//Stop the given PID
-func (pid *PID) Stop() {
-	pid.ref().Stop(pid)
 }
 
 func pidFromKey(key string, p *PID) {

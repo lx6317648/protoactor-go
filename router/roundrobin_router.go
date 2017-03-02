@@ -31,7 +31,7 @@ func (state *roundRobinState) GetRoutees() *actor.PIDSet {
 
 func (state *roundRobinState) RouteMessage(message interface{}, sender *actor.PID) {
 	pid := roundRobinRoutee(&state.index, state.values)
-	pid.Request(message, sender)
+	actor.Request(&pid, message, sender)
 }
 
 func NewRoundRobinPool(size int) *actor.Props {

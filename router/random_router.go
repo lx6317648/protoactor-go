@@ -32,7 +32,7 @@ func (state *randomRouterState) RouteMessage(message interface{}, sender *actor.
 	l := len(state.values)
 	r := rand.Intn(l)
 	pid := state.values[r]
-	pid.Request(message, sender)
+	actor.Request(&pid, message, sender)
 }
 
 func NewRandomPool(size int) *actor.Props {

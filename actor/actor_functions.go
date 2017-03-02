@@ -1,0 +1,25 @@
+package actor
+
+import "time"
+
+//Stop the given PID
+func StopActor(pid *PID) {
+	pid.ref().Stop(pid)
+}
+
+func Tell(pid *PID, message interface{}) {
+
+}
+
+// Request sends a messages asynchronously to the PID. The actor may send a response back via respondTo, which is
+// available to the receiving actor via Context.Sender
+func Request(pid *PID, message interface{}, respondTo *PID) {
+	pid.ref().SendUserMessage(pid, message, respondTo)
+}
+
+// RequestFuture sends a message to a given PID and returns a Future
+func RequestFuture(pid *PID, message interface{}, timeout time.Duration) *Future {
+	future := NewFuture(timeout)
+	pid.ref().SendUserMessage(pid, message, future.pid)
+	return future
+}

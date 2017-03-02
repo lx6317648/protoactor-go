@@ -42,7 +42,7 @@ func (a *groupRouterActor) Receive(context actor.Context) {
 		msg := m.Message
 		sender := context.Sender()
 		a.state.GetRoutees().ForEach(func(i int, pid actor.PID) {
-			pid.Request(msg, sender)
+			actor.Request(&pid, msg, sender)
 		})
 
 	case *GetRoutees:

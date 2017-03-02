@@ -63,7 +63,7 @@ func (m *testRouterState) SetRoutees(routees *actor.PIDSet) {
 func (m *testRouterState) RouteMessage(message interface{}, sender *actor.PID) {
 	m.Called(message, sender)
 	m.routees.ForEach(func(i int, pid actor.PID) {
-		pid.Request(message, sender)
+		actor.Request(&pid, message, sender)
 	})
 }
 

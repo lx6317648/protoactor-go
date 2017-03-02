@@ -37,7 +37,7 @@ func TestLocalContext_Stop(t *testing.T) {
 
 	o.On("SendSystemMessage", other, &Terminated{Who: pid})
 
-	lc := newLocalContext(nullProducer, DefaultSupervisorStrategy(), nil, nil)
+	lc := newLocalContext(nullProducer, DefaultSupervisorStrategy(), nil, nil, nil)
 	lc.self = pid
 	lc.InvokeSystemMessage(&Stop{})
 	lc.InvokeSystemMessage(&Watch{Watcher: other})

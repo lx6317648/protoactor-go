@@ -202,7 +202,7 @@ func (ctx *localContext) InvokeUserMessage(md interface{}) {
 func localContextReceiver(ctx Context) {
 	a := ctx.(*localContext)
 	if _, ok := a.message.(*PoisonPill); ok {
-		a.self.Stop()
+		StopActor(a.self)
 	} else {
 		a.receive(ctx)
 	}
@@ -219,7 +219,7 @@ func (ctx *localContext) processMessage(m interface{}) {
 		ctx.middleware(ctx)
 	} else {
 		if _, ok := m.(*PoisonPill); ok {
-			ctx.self.Stop()
+			StopActor(ctx.self)
 		} else {
 			ctx.receive(ctx)
 		}
@@ -270,7 +270,7 @@ func (ctx *localContext) handleRestart(msg *Restart) {
 	ctx.restarting = true
 	ctx.InvokeUserMessage(restartingMessage)
 	ctx.children.ForEach(func(_ int, pid PID) {
-		pid.Stop()
+		StopActor(&pid)
 	})
 	ctx.tryRestartOrTerminate()
 }
@@ -282,7 +282,7 @@ func (ctx *localContext) handleStop(msg *Stop) {
 
 	ctx.InvokeUserMessage(stoppingMessage)
 	ctx.children.ForEach(func(_ int, pid PID) {
-		pid.Stop()
+		StopActor(&pid)
 	})
 	ctx.tryRestartOrTerminate()
 }

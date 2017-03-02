@@ -56,21 +56,21 @@ func (state *managerActor) Receive(context actor.Context) {
 		state.set = msg.PIDs
 		for i, v := range state.set {
 			if i%2 == 0 {
-				state.rpid.Tell(&router.RemoveRoutee{v})
+				state.rpid.Tell(&router.RemoveRoutee{PID: v})
 				//log.Println(v)
 
 			} else {
 
 				props := actor.FromInstance(&routerActor{})
 				pid := actor.Spawn(props)
-				state.rpid.Tell(&router.AddRoutee{pid})
+				state.rpid.Tell(&router.AddRoutee{PID: pid})
 				//log.Println(v)
 			}
 		}
 		context.Self().Tell(&getRoutees{state.rpid})
 	case *getRoutees:
 		state.rpid = msg.pid
-		msg.pid.Request(&router.GetRoutees{}, context.Self())
+		context.Request(msg.pid, &router.GetRoutees{})
 	}
 }
 

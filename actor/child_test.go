@@ -29,7 +29,7 @@ func NewCreateChildActor() Actor {
 
 func TestActorCanCreateChildren(t *testing.T) {
 	a := Spawn(FromProducer(NewCreateChildActor))
-	defer a.Stop()
+	defer StopActor(a)
 	expected := 10
 	for i := 0; i < expected; i++ {
 		a.Tell(CreateChildMessage{})
@@ -81,7 +81,7 @@ func TestActorCanStopChildren(t *testing.T) {
 	assertFutureSuccess(future, t)
 
 	//then send a stop command
-	actor.Stop()
+	StopActor(actor)
 
 	//wait for the actor to stop and get the result from the stopped handler
 	response := assertFutureSuccess(future2, t)
@@ -111,7 +111,7 @@ func TestActorReceivesTerminatedFromWatched(t *testing.T) {
 
 	Spawn(FromInstance(r))
 	wg.Wait()
-	child.Stop()
+	StopActor(child)
 
 	assertFutureSuccess(future, t)
 }

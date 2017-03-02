@@ -24,7 +24,7 @@ func (state *broadcastRouterState) GetRoutees() *actor.PIDSet {
 
 func (state *broadcastRouterState) RouteMessage(message interface{}, sender *actor.PID) {
 	state.routees.ForEach(func(i int, pid actor.PID) {
-		pid.Request(message, sender)
+		actor.Request(&pid, message, sender)
 	})
 }
 

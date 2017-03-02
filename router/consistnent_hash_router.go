@@ -62,7 +62,7 @@ func (state *consistentHashRouterState) RouteMessage(message interface{}, sender
 			return
 		}
 		if routee, ok := hmc.routeeMap[node]; ok {
-			routee.Request(msg, sender)
+			actor.Request(routee, msg, sender)
 		} else {
 			log.Println("[ROUTING] Consisten router failed to resolve node", node)
 		}
