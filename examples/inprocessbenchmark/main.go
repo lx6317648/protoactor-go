@@ -159,9 +159,9 @@ func main() {
 		log.Printf("			%v			%s			%v", tp, elapsed, x)
 		for i := 0; i < clientCount; i++ {
 			client := clients[i]
-			client.StopFuture().Wait()
+			actor.StopGraceful(client)
 			echo := echos[i]
-			echo.StopFuture().Wait()
+			actor.StopGraceful(echo)
 		}
 		runtime.GC()
 		time.Sleep(2 * time.Second)

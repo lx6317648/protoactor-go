@@ -20,9 +20,9 @@ func TestStopFuture(t *testing.T) {
 	ID := "UniqueID"
 	{
 		props := FromInstance(&ShortLivingActor{})
-		actor, _ := SpawnNamed(props, ID)
+		a, _ := SpawnNamed(props, ID)
 
-		fut := actor.StopFuture()
+		fut := StopFuture(a)
 
 		res, errR := fut.Result()
 		if errR != nil {
@@ -36,7 +36,7 @@ func TestStopFuture(t *testing.T) {
 			return
 		}
 
-		_, found := ProcessRegistry.Get(actor)
+		_, found := ProcessRegistry.Get(a)
 		assert.False(t, found)
 	}
 }

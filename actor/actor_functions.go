@@ -24,3 +24,16 @@ func RequestFuture(pid *PID, message interface{}, timeout time.Duration) *Future
 	pid.ref().SendUserMessage(pid, message, future.pid)
 	return future
 }
+
+func StopFuture(pid *PID) *Future {
+	future := NewFuture(10 * time.Second)
+
+	pid.sendSystemMessage(&Watch{Watcher: future.pid})
+	StopActor(pid)
+
+	return future
+}
+
+func StopGraceful(pid *PID) {
+	StopFuture(pid).Wait()
+}

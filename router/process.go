@@ -66,7 +66,7 @@ func (ref *process) Stop(pid *actor.PID) {
 		return
 	}
 
-	ref.router.StopFuture().Wait()
+	actor.StopGraceful(ref.router)
 	actor.ProcessRegistry.Remove(pid)
 	ref.SendSystemMessage(pid, &actor.Stop{})
 }

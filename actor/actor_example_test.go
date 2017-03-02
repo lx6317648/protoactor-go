@@ -18,7 +18,7 @@ func Example() {
 	pid := actor.Spawn(props)
 
 	actor.Tell(pid, "Hello World")
-	pid.StopFuture().Wait() // wait for the actor to stop
+	actor.StopGraceful(pid) // wait for the actor to stop
 
 	// Output: Hello World
 }
@@ -53,8 +53,8 @@ func Example_synchronous() {
 	}))
 
 	wg.Wait()
-	callee.StopFuture().Wait()
-	caller.StopFuture().Wait()
+	actor.StopGraceful(callee)
+	actor.StopGraceful(caller)
 
 	// Output:
 	// PING

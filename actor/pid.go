@@ -36,15 +36,6 @@ func (pid *PID) sendSystemMessage(message interface{}) {
 	pid.ref().SendSystemMessage(pid, message)
 }
 
-func (pid *PID) StopFuture() *Future {
-	future := NewFuture(10 * time.Second)
-
-	pid.sendSystemMessage(&Watch{Watcher: future.pid})
-	StopActor(pid)
-
-	return future
-}
-
 func pidFromKey(key string, p *PID) {
 	i := strings.IndexByte(key, '#')
 	if i == -1 {
