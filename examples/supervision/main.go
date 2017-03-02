@@ -15,7 +15,7 @@ func (state *parentActor) Receive(context actor.Context) {
 	case *hello:
 		props := actor.FromProducer(newChildActor)
 		child := context.Spawn(props)
-		child.Tell(msg)
+		context.Tell(child, msg)
 	}
 }
 

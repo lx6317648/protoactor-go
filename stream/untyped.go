@@ -16,7 +16,7 @@ func (s *UntypedStream) PID() *actor.PID {
 }
 
 func (s *UntypedStream) Close() {
-	s.pid.Stop()
+	actor.StopActor(s.pid)
 	close(s.c)
 }
 
