@@ -43,7 +43,7 @@ func main() {
 
 	pid := actor.Spawn(act)
 	for i := 0; i < 6; i++ {
-		pid.Tell("hello")
+		actor.Tell(pid, "hello")
 		time.Sleep(500 * time.Millisecond)
 	}
 
@@ -51,16 +51,16 @@ func main() {
 	console.ReadLine()
 
 	for i := 0; i < 6; i++ {
-		pid.Tell(NoInfluence("hello"))
+		actor.Tell(pid, NoInfluence("hello"))
 		time.Sleep(500 * time.Millisecond)
 	}
 
 	log.Println("hit [return] to send a message to cancel the timeout")
 	console.ReadLine()
-	pid.Tell("cancel")
+	actor.Tell(pid, "cancel")
 
 	log.Println("hit [return] to finish")
 	console.ReadLine()
 
-	pid.Stop()
+	actor.StopActor(pid)
 }

@@ -51,6 +51,6 @@ func main() {
 		)
 
 	pid := actor.Spawn(props)
-	pid.Tell("bar")
+	actor.Tell(pid, "bar")
 	console.ReadLine()
 }

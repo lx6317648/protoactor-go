@@ -15,7 +15,7 @@ func newMyMessageSenderChannel() chan<- *messages.MyMessage {
 	remote := actor.NewPID("127.0.0.1:8080", "MyMessage")
 	go func() {
 		for msg := range channel {
-			remote.Tell(msg)
+			actor.Tell(remote, msg)
 		}
 	}()
 

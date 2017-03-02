@@ -37,7 +37,7 @@ func (m *requestWorkBehavior) MailboxEmpty() {
 func (m *requestWorkBehavior) requestMore() {
 	log.Println("Requesting more tokens")
 	m.tokens = 50
-	m.producer.Tell(&requestMoreWork{items: 50})
+	actor.Tell(m.producer, &requestMoreWork{items: 50})
 }
 
 type producer struct {
@@ -56,16 +56,16 @@ func (p *producer) Receive(ctx actor.Context) {
 	case *requestMoreWork:
 		p.requestedWork += msg.items
 		log.Println("Producer got a new work request")
-		ctx.Self().Tell(&produce{})
+		ctx.Tell(ctx.Self(), &produce{})
 	case *produce:
 		//produce more work
 		log.Println("Producer is producing work")
-		p.worker.Tell(&work{})
+		ctx.Tell(p.worker, &work{})
 
 		//decrease our workload and tell ourselves to produce more work
 		if p.requestedWork > 0 {
 			p.requestedWork--
-			ctx.Self().Tell(&produce{})
+			ctx.Tell(ctx.Self(), &produce{})
 		}
 	}
 }

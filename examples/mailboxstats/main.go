@@ -27,7 +27,7 @@ func main() {
 	props := actor.FromFunc(func(ctx actor.Context) {
 
 	}).WithMailbox(mailbox.Unbounded(&mailboxLogger{}))
-	actor := actor.Spawn(props)
-	actor.Tell("Hello")
+	a := actor.Spawn(props)
+	actor.Tell(a, "Hello")
 	console.ReadLine()
 }

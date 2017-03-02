@@ -11,10 +11,10 @@ import (
 	"github.com/emirpasic/gods/sets/hashset"
 )
 
-func notifyAll(clients *hashset.Set, message interface{}) {
+func notifyAll(context actor.Context, clients *hashset.Set, message interface{}) {
 	for _, tmp := range clients.Values() {
 		client := tmp.(*actor.PID)
-		client.Tell(message)
+		context.Tell(client, message)
 	}
 }
 
@@ -27,14 +27,14 @@ func main() {
 		case *messages.Connect:
 			log.Printf("Client %v connected", msg.Sender)
 			clients.Add(msg.Sender)
-			msg.Sender.Tell(&messages.Connected{Message: "Welcome!"})
+			context.Tell(msg.Sender, &messages.Connected{Message: "Welcome!"})
 		case *messages.SayRequest:
-			notifyAll(clients, &messages.SayResponse{
+			notifyAll(context, clients, &messages.SayResponse{
 				UserName: msg.UserName,
 				Message:  msg.Message,
 			})
 		case *messages.NickRequest:
-			notifyAll(clients, &messages.NickResponse{
+			notifyAll(context, clients, &messages.NickResponse{
 				OldUserName: msg.OldUserName,
 				NewUserName: msg.NewUserName,
 			})

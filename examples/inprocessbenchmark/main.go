@@ -43,7 +43,7 @@ func (state *pingActor) sendBatch(context actor.Context, sender *actor.PID) bool
 	}
 
 	for i := 0; i < state.batchSize; i++ {
-		sender.Tell(m)
+		context.Tell(sender, m)
 	}
 
 	state.messageCount -= state.batchSize
@@ -127,7 +127,7 @@ func main() {
 				func(context actor.Context) {
 					switch msg := context.Message().(type) {
 					case *Msg:
-						msg.Sender.Tell(msg)
+						context.Tell(msg.Sender, msg)
 					}
 				}).
 			WithMailbox(mailbox.Bounded(batchSize + 10)).
@@ -148,8 +148,7 @@ func main() {
 		for i := 0; i < clientCount; i++ {
 			client := clients[i]
 			echo := echos[i]
-
-			client.Tell(&Start{
+			actor.Tell(client, &Start{
 				Sender: echo,
 			})
 		}

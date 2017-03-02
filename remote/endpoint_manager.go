@@ -18,7 +18,7 @@ func newEndpointManager(config *remoteConfig) actor.Producer {
 
 func subscribeEndpointManager() {
 	eventstream.
-		Subscribe(endpointManagerPID.Tell).
+		Subscribe(func(msg interface{}) { actor.Tell(endpointManagerPID, msg) }).
 		WithPredicate(func(m interface{}) bool {
 			_, ok := m.(*EndpointTerminatedEvent)
 			return ok

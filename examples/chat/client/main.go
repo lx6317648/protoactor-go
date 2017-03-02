@@ -29,20 +29,20 @@ func main() {
 
 	client := actor.Spawn(props)
 
-	server.Tell(&messages.Connect{
+	actor.Tell(server, &messages.Connect{
 		Sender: client,
 	})
 
 	nick := "Roger"
 	cons := console.NewConsole(func(text string) {
-		server.Tell(&messages.SayRequest{
+		actor.Tell(server, &messages.SayRequest{
 			UserName: nick,
 			Message:  text,
 		})
 	})
 	//write /nick NAME to change your chat username
 	cons.Command("/nick", func(newNick string) {
-		server.Tell(&messages.NickRequest{
+		actor.Tell(server, &messages.NickRequest{
 			OldUserName: nick,
 			NewUserName: newNick,
 		})

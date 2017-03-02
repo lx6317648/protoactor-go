@@ -22,7 +22,7 @@ func doWork(ctx actor.Context) {
 func main() {
 	pid := actor.Spawn(router.NewRoundRobinPool(maxConcurrency).WithFunc(doWork))
 	for i := 0; i < 1000; i++ {
-		pid.Tell(&workItem{i})
+		actor.Tell(pid, &workItem{i})
 	}
 	console.ReadLine()
 }

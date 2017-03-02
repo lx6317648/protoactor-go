@@ -20,6 +20,6 @@ func receive(context actor.Context) {
 func main() {
 	props := actor.FromFunc(receive).WithMiddleware(middleware.Logger)
 	pid := actor.Spawn(props)
-	pid.Tell(&hello{Who: "Roger"})
+	actor.Tell(pid, &hello{Who: "Roger"})
 	console.ReadLine()
 }
