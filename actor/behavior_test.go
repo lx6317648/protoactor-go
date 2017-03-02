@@ -29,9 +29,9 @@ func (EchoSetBehaviorActor) Other(context Context) {
 func TestActorCanSetBehavior(t *testing.T) {
 	pid := Spawn(FromProducer(NewEchoBehaviorActor))
 	defer StopActor(pid)
-	Tell(pid,BehaviorMessage{} )
-	result := pid.RequestFuture(EchoRequest{}, testTimeout)
-	assertFutureSuccess(result, t)
+	Tell(pid, BehaviorMessage{})
+	fut := pid.RequestFuture(EchoRequest{}, testTimeout)
+	assertFutureSuccess(fut, t)
 }
 
 type PopBehaviorMessage struct{}
@@ -60,8 +60,8 @@ func (*EchoPopBehaviorActor) Other(context Context) {
 
 func TestActorCanPopBehavior(t *testing.T) {
 	a := Spawn(FromProducer(NewEchoUnbecomeActor))
-	Tell(a,BehaviorMessage{})
-	Tell(a,PopBehaviorMessage{})
-	result := a.RequestFuture(EchoRequest{}, testTimeout)
-	assertFutureSuccess(result, t)
+	Tell(a, BehaviorMessage{})
+	Tell(a, PopBehaviorMessage{})
+	fut := a.RequestFuture(EchoRequest{}, testTimeout)
+	assertFutureSuccess(fut, t)
 }
