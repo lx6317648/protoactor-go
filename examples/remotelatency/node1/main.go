@@ -32,7 +32,7 @@ func main() {
 		message := &messages.Ping{
 			Time: makeTimestamp(),
 		}
-		remote.Tell(message)
+		actor.Tell(remote, message)
 		if i%1000 == 0 {
 			time.Sleep(500)
 		}

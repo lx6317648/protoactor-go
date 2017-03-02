@@ -101,7 +101,7 @@ func main() {
 
 	message := &messages.Ping{}
 	for i := 0; i < messageCount; i++ {
-		remote.Tell(message)
+		actor.Tell(remote, message)
 	}
 
 	wg.Wait()

@@ -41,12 +41,11 @@ func main() {
 
 	for i := 0; i < messageCount; i++ {
 		message := &messages.Ping{User: fmt.Sprintf("User_%d", i)}
-		remotePID.Request(message, pid)
+		actor.Request(remotePID, message, pid)
 	}
 
 	wgStop.Wait()
-
-	pid.Stop()
+	actor.StopActor(pid)
 
 	fmt.Printf("elapsed: %v\n", time.Since(t))
 

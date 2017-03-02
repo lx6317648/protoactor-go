@@ -45,7 +45,7 @@ func (s *state) Receive(ctx actor.Context) {
 		s.replyTo = ctx.Sender()
 		for i := 0; i < msg.div; i++ {
 			child := actor.Spawn(props)
-			child.Request(&request{
+			actor.Request(child, &request{
 				num:  msg.num + i*(msg.size/msg.div),
 				size: msg.size / msg.div,
 				div:  msg.div,
@@ -55,7 +55,7 @@ func (s *state) Receive(ctx actor.Context) {
 		s.sum += msg
 		s.replies--
 		if s.replies == 0 {
-			s.replyTo.Tell(s.sum)
+			actor.Tell(s.replyTo, s.sum)
 		}
 	}
 }

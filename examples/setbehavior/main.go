@@ -32,7 +32,7 @@ func NewSetBehaviorActor() actor.Actor {
 func main() {
 	props := actor.FromProducer(NewSetBehaviorActor)
 	pid := actor.Spawn(props)
-	pid.Tell(Hello{Who: "Roger"})
-	pid.Tell(Hello{Who: "Roger"})
+	actor.Tell(pid, Hello{Who: "Roger"})
+	actor.Tell(pid, Hello{Who: "Roger"})
 	console.ReadLine()
 }

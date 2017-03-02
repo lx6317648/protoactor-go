@@ -56,7 +56,7 @@ func main() {
 		WithSupervisor(supervisor)
 
 	pid := actor.Spawn(props)
-	pid.Tell(&hello{Who: "Roger"})
+	actor.Tell(pid, &hello{Who: "Roger"})
 
 	console.ReadLine()
 }

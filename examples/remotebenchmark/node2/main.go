@@ -26,7 +26,7 @@ func main() {
 					sender = msg.Sender
 					context.Respond(&messages.Start{})
 				case *messages.Ping:
-					sender.Tell(&messages.Pong{})
+					context.Tell(sender, &messages.Pong{})
 				}
 			}).
 		WithMailbox(mailbox.Bounded(1000000))

@@ -28,25 +28,25 @@ func main() {
 
 	pid := actor.Spawn(router.NewRoundRobinPool(5).WithFunc(act))
 	for i := 0; i < 10; i++ {
-		pid.Tell(&myMessage{i})
+		actor.Tell(pid, &myMessage{i})
 	}
 	time.Sleep(1 * time.Second)
 	log.Println("Random routing:")
 	pid = actor.Spawn(router.NewRandomPool(5).WithFunc(act))
 	for i := 0; i < 10; i++ {
-		pid.Tell(&myMessage{i})
+		actor.Tell(pid, &myMessage{i})
 	}
 	time.Sleep(1 * time.Second)
 	log.Println("ConsistentHash routing:")
 	pid = actor.Spawn(router.NewConsistentHashPool(5).WithFunc(act))
 	for i := 0; i < 10; i++ {
-		pid.Tell(&myMessage{i})
+		actor.Tell(pid, &myMessage{i})
 	}
 	time.Sleep(1 * time.Second)
 	log.Println("BroadcastPool routing:")
 	pid = actor.Spawn(router.NewBroadcastPool(5).WithFunc(act))
 	for i := 0; i < 10; i++ {
-		pid.Tell(&myMessage{i})
+		actor.Tell(pid, &myMessage{i})
 	}
 	console.ReadLine()
 }
