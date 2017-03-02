@@ -19,7 +19,7 @@ func subscribePartitionKindsToEventStream() {
 			for _, k := range mse.GetKinds() {
 				kindPID := kindPIDMap[k]
 				if kindPID != nil {
-					kindPID.Tell(m)
+					actor.Tell(kindPID, m)
 				}
 			}
 		}
@@ -130,7 +130,7 @@ func (state *partitionActor) memberJoined(msg *MemberJoinedEvent) {
 func (state *partitionActor) transferOwnership(actorID string, address string) {
 	pid := state.partition[actorID]
 	owner := partitionForKind(address, state.kind)
-	owner.Tell(&TakeOwnership{
+	actor.Tell(owner, &TakeOwnership{
 		Pid:  pid,
 		Name: actorID,
 	})

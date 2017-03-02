@@ -24,7 +24,7 @@ func newMembershipActor() actor.Producer {
 
 func subscribeMembershipActorToEventStream() {
 	eventstream.
-		Subscribe(memberlistPID.Tell).
+		Subscribe(func(msg interface{}) { actor.Tell(memberlistPID, msg) }).
 		WithPredicate(func(m interface{}) bool {
 			_, ok := m.(ClusterTopologyEvent)
 			return ok
