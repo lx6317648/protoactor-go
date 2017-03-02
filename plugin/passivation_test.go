@@ -35,7 +35,7 @@ func TestPassivation(t *testing.T) {
 		_, found := actor.ProcessRegistry.LocalPIDs.Get(pid.Id)
 		assert.True(t, found)
 	}
-	pid.Tell("keepalive")
+	actor.Tell(pid, "keepalive")
 	time.Sleep(UnitOfTime)
 	time.Sleep(UnitOfTime)
 	{
