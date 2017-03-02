@@ -107,7 +107,7 @@ func (ctx *localContext) cancelTimer() {
 }
 
 func (ctx *localContext) receiveTimeoutHandler() {
-	ctx.self.Tell(receiveTimeoutMessage)
+	Tell(ctx.self, receiveTimeoutMessage)
 }
 
 func (ctx *localContext) SetReceiveTimeout(d time.Duration) {

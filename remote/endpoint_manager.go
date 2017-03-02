@@ -53,23 +53,23 @@ func (state *endpointManager) Receive(ctx actor.Context) {
 	case *EndpointTerminatedEvent:
 		address := msg.Address
 		endpoint := state.ensureConnected(address, ctx)
-		endpoint.watcher.Tell(msg)
+		ctx.Tell(endpoint.watcher, msg)
 	case *remoteTerminate:
 		address := msg.Watchee.Address
 		endpoint := state.ensureConnected(address, ctx)
-		endpoint.watcher.Tell(msg)
+		ctx.Tell(endpoint.watcher, msg)
 	case *remoteWatch:
 		address := msg.Watchee.Address
 		endpoint := state.ensureConnected(address, ctx)
-		endpoint.watcher.Tell(msg)
+		ctx.Tell(endpoint.watcher, msg)
 	case *remoteUnwatch:
 		address := msg.Watchee.Address
 		endpoint := state.ensureConnected(address, ctx)
-		endpoint.watcher.Tell(msg)
+		ctx.Tell(endpoint.watcher, msg)
 	case *remoteDeliver:
 		address := msg.target.Address
 		endpoint := state.ensureConnected(address, ctx)
-		endpoint.writer.Tell(msg)
+		ctx.Tell(endpoint.writer, msg)
 	}
 }
 func (state *endpointManager) ensureConnected(address string, ctx actor.Context) *endpoint {

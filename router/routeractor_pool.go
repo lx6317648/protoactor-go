@@ -47,7 +47,7 @@ func (a *poolRouterActor) Receive(context actor.Context) {
 		// in terms of both delay it cause to the router actor and the time it
 		// provides for the routee to receive messages before it dies.
 		time.Sleep(time.Millisecond * 1)
-		m.PID.Tell(&actor.PoisonPill{})
+		actor.Tell(m.PID, &actor.PoisonPill{})
 
 	case *BroadcastMessage:
 		msg := m.Message

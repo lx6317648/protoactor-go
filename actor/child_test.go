@@ -32,7 +32,7 @@ func TestActorCanCreateChildren(t *testing.T) {
 	defer StopActor(a)
 	expected := 10
 	for i := 0; i < expected; i++ {
-		a.Tell(CreateChildMessage{})
+		Tell(a,CreateChildMessage{})
 	}
 	future := a.RequestFuture(GetChildCountRequest{}, testTimeout)
 	response := assertFutureSuccess(future, t)
@@ -70,12 +70,12 @@ func TestActorCanStopChildren(t *testing.T) {
 	actor := Spawn(FromProducer(NewCreateChildThenStopActor))
 	count := 10
 	for i := 0; i < count; i++ {
-		actor.Tell(CreateChildMessage{})
+		Tell(actor, CreateChildMessage{})
 	}
 
 	future := NewFuture(testTimeout)
 	future2 := NewFuture(testTimeout)
-	actor.Tell(GetChildCountMessage2{ReplyDirectly: future.PID(), ReplyAfterStop: future2.PID()})
+	Tell(actor, GetChildCountMessage2{ReplyDirectly: future.PID(), ReplyAfterStop: future2.PID()})
 
 	//wait for the actor to reply to the first responsePID
 	assertFutureSuccess(future, t)

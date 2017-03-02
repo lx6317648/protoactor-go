@@ -25,11 +25,6 @@ func (pid *PID) ref() Process {
 	return ref
 }
 
-// Tell sends a messages asynchronously to the PID
-func (pid *PID) Tell(message interface{}) {
-	pid.ref().SendUserMessage(pid, message, nil)
-}
-
 // RequestFuture sends a message to a given PID and returns a Future
 func (pid *PID) RequestFuture(message interface{}, timeout time.Duration) *Future {
 	future := NewFuture(timeout)

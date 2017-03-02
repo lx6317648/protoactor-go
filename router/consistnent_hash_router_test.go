@@ -43,7 +43,7 @@ func (state *tellerActor) Receive(context actor.Context) {
 	switch msg := context.Message().(type) {
 	case *myMessage:
 		for i := 0; i < 100; i++ {
-			msg.pid.Tell(msg)
+			context.Tell(msg.pid, msg)
 			time.Sleep(10 * time.Millisecond)
 		}
 
@@ -56,18 +56,18 @@ func (state *managerActor) Receive(context actor.Context) {
 		state.set = msg.PIDs
 		for i, v := range state.set {
 			if i%2 == 0 {
-				state.rpid.Tell(&router.RemoveRoutee{PID: v})
+				context.Tell(state.rpid, &router.RemoveRoutee{PID: v})
 				//log.Println(v)
 
 			} else {
 
 				props := actor.FromInstance(&routerActor{})
 				pid := actor.Spawn(props)
-				state.rpid.Tell(&router.AddRoutee{PID: pid})
+				context.Tell(state.rpid, &router.AddRoutee{PID: pid})
 				//log.Println(v)
 			}
 		}
-		context.Self().Tell(&getRoutees{state.rpid})
+		context.Tell(context.Self(), &getRoutees{state.rpid})
 	case *getRoutees:
 		state.rpid = msg.pid
 		context.Request(msg.pid, &router.GetRoutees{})
@@ -85,11 +85,11 @@ func TestConcurrency(t *testing.T) {
 	props := actor.FromInstance(&tellerActor{})
 	for i := 0; i < 10000; i++ {
 		pid := actor.Spawn(props)
-		pid.Tell(&myMessage{i, rpid})
+		actor.Tell(pid, &myMessage{i, rpid})
 	}
 
 	props = actor.FromInstance(&managerActor{})
 	pid := actor.Spawn(props)
-	pid.Tell(&getRoutees{rpid})
+	actor.Tell(pid, &getRoutees{rpid})
 	wait.Wait()
 }

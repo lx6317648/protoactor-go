@@ -70,7 +70,7 @@ func (f *Future) sendToPipes() {
 		m = f.result
 	}
 	for _, pid := range f.pipes {
-		pid.Tell(m)
+		Tell(pid,m)
 	}
 	f.pipes = nil
 }

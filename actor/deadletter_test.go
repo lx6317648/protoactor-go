@@ -23,7 +23,7 @@ func TestDeadLetterAfterStop(t *testing.T) {
 		StopFuture().
 		Wait()
 
-	actor.Tell("hello")
+	Tell(actor,"hello")
 
 	assert.True(t, done)
 }

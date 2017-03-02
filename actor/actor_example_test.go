@@ -17,7 +17,7 @@ func Example() {
 
 	pid := actor.Spawn(props)
 
-	pid.Tell("Hello World")
+	actor.Tell(pid, "Hello World")
 	pid.StopFuture().Wait() // wait for the actor to stop
 
 	// Output: Hello World

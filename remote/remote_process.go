@@ -29,7 +29,7 @@ func sendRemoteMessage(pid *actor.PID, message interface{}, sender *actor.PID) {
 			sender:  sender,
 			target:  pid,
 		}
-		endpointManagerPID.Tell(rd)
+		actor.Tell(endpointManagerPID, rd)
 	default:
 		plog.Error("failed, trying to send non Proto message", log.TypeOf("type", msg), log.Stringer("pid", pid))
 	}
@@ -44,13 +44,13 @@ func (ref *remoteProcess) SendSystemMessage(pid *actor.PID, message interface{})
 			Watcher: msg.Watcher,
 			Watchee: pid,
 		}
-		endpointManagerPID.Tell(rw)
+		actor.Tell(endpointManagerPID, rw)
 	case *actor.Unwatch:
 		ruw := &remoteUnwatch{
 			Watcher: msg.Watcher,
 			Watchee: pid,
 		}
-		endpointManagerPID.Tell(ruw)
+		actor.Tell(endpointManagerPID, ruw)
 	default:
 		sendRemoteMessage(pid, message, nil)
 	}

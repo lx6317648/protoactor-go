@@ -86,6 +86,6 @@ func TestActorContinueFutureInActor(t *testing.T) {
 			})
 		}
 	}))
-	pid.Tell("start")
+	Tell(pid, "start")
 	wg.Wait()
 }

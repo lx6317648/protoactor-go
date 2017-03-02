@@ -7,8 +7,9 @@ func StopActor(pid *PID) {
 	pid.ref().Stop(pid)
 }
 
+// Tell sends a messages asynchronously to the PID
 func Tell(pid *PID, message interface{}) {
-
+	pid.ref().SendUserMessage(pid, message, nil)
 }
 
 // Request sends a messages asynchronously to the PID. The actor may send a response back via respondTo, which is

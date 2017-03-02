@@ -33,8 +33,8 @@ func ExampleContext_setBehavior() {
 	pid := actor.Spawn(actor.FromInstance(a))
 	defer actor.StopActor(pid)
 
-	pid.Tell("other")
-	pid.Tell("foo")
+	actor.Tell(pid, "other")
+	actor.Tell(pid, "foo")
 	a.Wait()
 
 	// Output: foo

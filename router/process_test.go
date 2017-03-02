@@ -29,7 +29,7 @@ func TestRouterSendsUserMessageToChild(t *testing.T) {
 	grc.On("CreateRouterState").Return(rs)
 
 	routerPID := actor.Spawn(actor.FromSpawnFunc(spawner(grc)))
-	routerPID.Tell("hello")
+	actor.Tell(routerPID, "hello")
 
 	mock.AssertExpectationsForObjects(t, p, rs)
 }

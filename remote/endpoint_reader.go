@@ -28,7 +28,7 @@ func (s *server) Receive(stream Remoting_ReceiveServer) error {
 					Watchee: msg.Who,
 					Watcher: pid,
 				}
-				endpointManagerPID.Tell(rt)
+				actor.Tell(endpointManagerPID, rt)
 			case actor.SystemMessage:
 				ref, _ := actor.ProcessRegistry.GetLocal(pid.Id)
 				ref.SendSystemMessage(pid, msg)

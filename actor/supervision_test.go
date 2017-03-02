@@ -93,12 +93,12 @@ func TestActorStopsAfterXRestars(t *testing.T) {
 
 	//root supervisor allows 10 restarts
 	for i := 0; i < 10; i++ {
-		child.Tell(fail)
+		Tell(child,fail)
 		e.ExpectMsg(fail, t)
 		e.ExpectMsg(restartingMessage, t)
 		e.ExpectMsg(startedMessage, t)
 	}
-	child.Tell(fail)
+	Tell(child, fail)
 	e.ExpectMsg(fail, t)
 	//the 11th time should cause a termination
 	e.ExpectMsg(stoppingMessage, t)

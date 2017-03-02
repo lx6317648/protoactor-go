@@ -25,7 +25,7 @@ func ExampleFuture_PipeTo() {
 	f := actor.NewFuture(50 * time.Millisecond)
 	f.PipeTo(pid)
 	// resolve the future and pipe to waiting actor
-	f.PID().Tell("hello world")
+	actor.Tell(f.PID(), "hello world")
 	wg.Wait()
 
 	// Output: hello world
