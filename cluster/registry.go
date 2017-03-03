@@ -26,7 +26,7 @@ func Get(name string, kind string) (*actor.PID, error) {
 		name: name,
 	}
 
-	res, err := pidCacheActorPid.RequestFuture(req, 5*time.Second).Result()
+	res, err := actor.RequestFuture(pidCacheActorPid, req, 5*time.Second).Result()
 	if err != nil {
 		plog.Error("ActorPidRequest timed out", log.String("name", name), log.Error(err))
 		return nil, err

@@ -61,7 +61,7 @@ func (a *pidCachePartitionActor) Receive(ctx actor.Context) {
 			Name: name,
 		}
 		//ask the DHT partition for this name to give us a PID
-		f := remotePID.RequestFuture(req, 5*time.Second)
+		f := actor.RequestFuture(remotePID, req, 5*time.Second)
 		ctx.AwaitFuture(f, func(r interface{}, err error) {
 			if err != nil {
 				return
