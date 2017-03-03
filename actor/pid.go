@@ -3,7 +3,6 @@ package actor
 import (
 	"strings"
 	"sync/atomic"
-	"time"
 	"unsafe"
 )
 
@@ -23,13 +22,6 @@ func (pid *PID) ref() Process {
 	}
 
 	return ref
-}
-
-// RequestFuture sends a message to a given PID and returns a Future
-func (pid *PID) RequestFuture(message interface{}, timeout time.Duration) *Future {
-	future := NewFuture(timeout)
-	pid.ref().SendUserMessage(pid, message, future.pid)
-	return future
 }
 
 func (pid *PID) sendSystemMessage(message interface{}) {

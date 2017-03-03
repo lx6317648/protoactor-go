@@ -41,7 +41,7 @@ func ActivatorForAddress(address string) *actor.PID {
 
 func SpawnFuture(address, name, kind string, timeout time.Duration) *actor.Future {
 	activator := ActivatorForAddress(address)
-	f := activator.RequestFuture(&ActorPidRequest{
+	f := actor.RequestFuture(activator, &ActorPidRequest{
 		Name: name,
 		Kind: kind,
 	}, timeout)
@@ -54,7 +54,7 @@ func Spawn(address, kind string, timeout time.Duration) (*actor.PID, error) {
 
 func SpawnNamed(address, name, kind string, timeout time.Duration) (*actor.PID, error) {
 	activator := ActivatorForAddress(address)
-	res, err := activator.RequestFuture(&ActorPidRequest{
+	res, err := actor.RequestFuture(activator, &ActorPidRequest{
 		Name: name,
 		Kind: kind,
 	}, timeout).Result()

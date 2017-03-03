@@ -88,6 +88,11 @@ func (m *mockContext) Request(pid *actor.PID, message interface{}) {
 	m.Called()
 }
 
+func (m *mockContext) RequestFuture(pid *actor.PID, message interface{}, timeout time.Duration) *actor.Future {
+	args := m.Called()
+	return args.Get(0).(*actor.Future)
+}
+
 func (m *mockContext) SetBehavior(r actor.ActorFunc) {
 	m.Called(r)
 }

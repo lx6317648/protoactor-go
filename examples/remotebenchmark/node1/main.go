@@ -88,11 +88,7 @@ func main() {
 	pid := actor.Spawn(props)
 
 	remote := actor.NewPID("127.0.0.1:8080", "remote")
-	remote.
-		RequestFuture(&messages.StartRemote{
-			Sender: pid,
-		}, 5*time.Second).
-		Wait()
+	actor.RequestFuture(remote, &messages.StartRemote{Sender: pid}, 5*time.Second).Wait()
 
 	wg.Add(1)
 

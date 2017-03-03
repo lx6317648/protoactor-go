@@ -78,7 +78,7 @@ func main() {
 
 	start := time.Now()
 	pid := actor.Spawn(props)
-	res, _ := pid.RequestFuture(&request{
+	res, _ := actor.RequestFuture(pid, &request{
 		num:  0,
 		size: 1000000,
 		div:  10,

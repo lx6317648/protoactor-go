@@ -80,7 +80,7 @@ func TestActorContinueFutureInActor(t *testing.T) {
 			ctx.Respond("done")
 		}
 		if ctx.Message() == "start" {
-			f := ctx.Self().RequestFuture("request", 5*time.Second)
+			f := ctx.RequestFuture(ctx.Self(), "request", 5*time.Second)
 			ctx.AwaitFuture(f, func(res interface{}, err error) {
 				wg.Done()
 			})

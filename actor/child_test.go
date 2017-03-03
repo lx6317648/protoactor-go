@@ -34,7 +34,7 @@ func TestActorCanCreateChildren(t *testing.T) {
 	for i := 0; i < expected; i++ {
 		Tell(a, CreateChildMessage{})
 	}
-	fut := a.RequestFuture(GetChildCountRequest{}, testTimeout)
+	fut := RequestFuture(a, GetChildCountRequest{}, testTimeout)
 	response := assertFutureSuccess(fut, t)
 	assert.Equal(t, expected, response.(GetChildCountResponse).ChildCount)
 }
@@ -118,7 +118,7 @@ func TestActorReceivesTerminatedFromWatched(t *testing.T) {
 
 func TestFutureDoesTimeout(t *testing.T) {
 	pid := Spawn(FromInstance(nullReceive))
-	_, err := pid.RequestFuture("", time.Millisecond).Result()
+	_, err := RequestFuture(pid, "", time.Millisecond).Result()
 	assert.EqualError(t, err, ErrTimeout.Error())
 }
 
@@ -132,7 +132,7 @@ func TestFutureDoesNotTimeout(t *testing.T) {
 		c.Respond("foo")
 	}
 	pid := Spawn(FromInstance(r))
-	reply, err := pid.RequestFuture("", 2*time.Second).Result()
+	reply, err := RequestFuture(pid, "", 2*time.Second).Result()
 	assert.NoError(t, err)
 	assert.Equal(t, "foo", reply)
 }

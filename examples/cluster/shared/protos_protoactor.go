@@ -66,7 +66,7 @@ func (g *HelloGrain) SayHello(r *HelloRequest, options ...cluster.GrainCallOptio
 			return nil, err
 		}
 		request := &cluster.GrainRequest{Method: "SayHello", MessageData: bytes}
-		response, err := pid.RequestFuture(request, conf.Timeout).Result()
+		response, err := actor.RequestFuture(pid, request, conf.Timeout).Result()
 		if err != nil {
 			return nil, err
 		}
@@ -124,7 +124,7 @@ func (g *HelloGrain) Add(r *AddRequest, options ...cluster.GrainCallOption) (*Ad
 			return nil, err
 		}
 		request := &cluster.GrainRequest{Method: "Add", MessageData: bytes}
-		response, err := pid.RequestFuture(request, conf.Timeout).Result()
+		response, err := actor.RequestFuture(pid, request, conf.Timeout).Result()
 		if err != nil {
 			return nil, err
 		}
@@ -182,7 +182,7 @@ func (g *HelloGrain) VoidFunc(r *AddRequest, options ...cluster.GrainCallOption)
 			return nil, err
 		}
 		request := &cluster.GrainRequest{Method: "VoidFunc", MessageData: bytes}
-		response, err := pid.RequestFuture(request, conf.Timeout).Result()
+		response, err := actor.RequestFuture(pid, request, conf.Timeout).Result()
 		if err != nil {
 			return nil, err
 		}
